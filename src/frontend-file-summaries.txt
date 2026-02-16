@@ -1,0 +1,13 @@
+{
+  "frontend/src/App.tsx": "Main landing page component with hero, benefits, workshop details, and CTA sections; updated all \"Delhi live workshop\" references to \"Free live workshop for students | Limited seats\" and removed the \"Who Want Real Skill-Based Income\" subheadline.",
+  "frontend/src/components/RegistrationForm.tsx": "Registration form component collecting Full Name, WhatsApp Number, and Email with inline validation; implements automatic WhatsApp redirect on success without any manual join buttons in success or duplicate-registration states.",
+  "frontend/src/hooks/useRegisterMutation.ts": "React Query mutation hook that calls the backend register method with robust error normalization; maps authorization/permission errors to user-friendly messages while preserving duplicate-registration signals for proper UI handling.",
+  "frontend/src/utils/validation.ts": "Client-side validation utilities for full name, email, and Indian WhatsApp number normalization (accepts 10-digit, +91, and 0-prefix formats).",
+  "frontend/src/index.css": "Global styles with warm amber/orange OKLCH color palette for urgent, trustworthy aesthetic (avoiding blue/purple) in both light and dark modes.",
+  "frontend/src/components/ui/button.tsx": "Shadcn button component with variants and sizes.",
+  "frontend/src/components/ui/input.tsx": "Shadcn input component for form fields.",
+  "frontend/src/components/ui/label.tsx": "Shadcn label component for form field labels.",
+  "frontend/src/lib/utils.ts": "Utility function for merging Tailwind classes using clsx and tailwind-merge.",
+  "frontend/src/components/WhatsAppFloatingButton.tsx": "Fixed bottom-right floating pill button component with MessageCircle icon and visible \"Join WhatsApp group\" text that opens the WhatsApp group link in a new tab with hover scale animation and mobile-friendly sizing.",
+  "frontend/src/utils/whatsappRedirect.ts": "Best-effort WhatsApp redirect utility that attempts top-level window navigation when embedded in an iframe, falling back to current window navigation with graceful error handling."
+}

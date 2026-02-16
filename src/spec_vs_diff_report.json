@@ -1,0 +1,25 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T14:58:26.250Z",
+  "summary": "REQ-23/24/25 appear largely implemented: registration success triggers a best-effort top-level redirect to the exact WhatsApp URL; success/duplicate UIs no longer show WhatsApp join buttons/copy; the floating CTA now shows the visible label text \"Join WhatsApp group\" and opens the exact invite link. One acceptance criterion (non-overlap with submit button on common mobile viewports) is not verifiable from the diff summary.",
+  "missing_requirements": [
+    {
+      "id": "REQ-25",
+      "requirement": "Floating CTA remains positioned bottom-right, does not overlap the primary form submit button on common mobile viewports, and remains clickable.",
+      "reason": "The diff shows bottom-right fixed positioning and sizing classes, but provides no viewport/layout evidence demonstrating it does not overlap the registration form submit button on common mobile viewports.",
+      "evidence": [
+        "frontend/src/components/WhatsAppFloatingButton.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [],
+  "confidence": 0.74,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/RegistrationForm.tsx",
+    "frontend/src/components/WhatsAppFloatingButton.tsx",
+    "frontend/src/utils/whatsappRedirect.ts",
+    "project_state.json"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Post-registration WhatsApp auto-redirect + remove join buttons + labeled floating CTA",
+  "requirements": [
+    {
+      "id": "REQ-23",
+      "summary": "Trigger best-effort automatic top-level navigation to the WhatsApp group invite immediately after backend registration succeeds (no iframe).",
+      "acceptanceCriteria": [
+        "After a successful registration (backend responds success), the browser navigates to https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t automatically without requiring an additional user click.",
+        "The redirect attempt does not use an iframe or embedded WhatsApp page.",
+        "If the app is running inside an iframe/container, the redirect attempts to navigate the top-level window (e.g., top-level location) rather than the embedded frame.",
+        "The redirect is triggered only after backend success (not after client-side validation alone)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/whatsappRedirect.ts",
+          "operation": "modify",
+          "description": "Update the redirect helper to prefer top-level navigation when embedded (best-effort: try window.top.location.assign / replace with try-catch + fallbacks to window.location) while keeping same-tab navigation and avoiding iframe-based approaches."
+        },
+        {
+          "path": "frontend/src/components/RegistrationForm.tsx",
+          "operation": "modify",
+          "description": "Ensure the auto-redirect is invoked only after backend success (keep it tied to the successful mutation state) and uses the shared WhatsApp URL constant exactly as provided; avoid any iframe/embed-based fallback behaviors."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Remove all WhatsApp join buttons and instructional join copy from registration success and duplicate-registration UI while keeping English text.",
+      "acceptanceCriteria": [
+        "When registration succeeds, the success state does not render any button that links to WhatsApp (no 'Join WhatsApp Group' button and no supporting 'click the button' text).",
+        "When the backend indicates the user is already registered, the duplicate message does not render any button that links to WhatsApp.",
+        "No new sections or navigation are added as part of this change."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/RegistrationForm.tsx",
+          "operation": "modify",
+          "description": "Remove the success-state WhatsApp join Button and any related instructional copy; keep success messaging in English only."
+        },
+        {
+          "path": "frontend/src/components/RegistrationForm.tsx",
+          "operation": "modify",
+          "description": "Remove the duplicate-registration WhatsApp join Button and any related instructional copy; keep duplicate messaging in English only and do not add new sections or navigation. (Use existing shadcn-ui Button only where still needed; Verify the component's usage instructions before implementing.)"
+        }
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "summary": "Update the bottom-right floating WhatsApp CTA to include visible label text \"Join WhatsApp group\" and prevent overlap with the form submit button on mobile.",
+      "acceptanceCriteria": [
+        "Floating CTA includes visible text exactly \"Join WhatsApp group\" alongside/with the icon.",
+        "Floating CTA remains positioned bottom-right, does not overlap the primary form submit button on common mobile viewports, and remains clickable.",
+        "Clicking the floating CTA opens the WhatsApp group invite link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/WhatsAppFloatingButton.tsx",
+          "operation": "modify",
+          "description": "Redesign the floating CTA to a small bottom-right pill/button that includes the MessageCircle icon plus visible text exactly \"Join WhatsApp group\"; keep it non-intrusive and adjust sizing/positioning (including mobile-safe spacing) to avoid overlapping the registration submit button. Use the existing shadcn-ui Button component for consistent styling and focus states; Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Confirm the updated floating CTA remains mounted globally (as currently wired) and visually stays above page content without interfering with the registration form area on typical mobile layouts."
+        }
+      ]
+    }
+  ]
+}

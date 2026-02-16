@@ -1,0 +1,63 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-post-registration-flow-so-that-immediately-after-the-backend-registration-call-succeeds-the-app-performs-a-best-effort-automatic-navigation-to-the-whatsapp-group-invite-link-in-the-same-tab-top-level-window-using-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t-avoid-approaches-that-can-cause-refused-to-connect-issues-e-g-embedding-whatsapp-in-an-iframe-and-avoid-triggering-extra-browser-permission-prompts-where-possible",
+      "featureTitle": "Update the post-registration flow so that immediately after the backend registration call succeeds, the app performs a best-effort automatic navigation to the WhatsApp group invite link (in the same tab / top-level window) using: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. Avoid approaches that can cause 'refused to connect' issues (e.g., embedding WhatsApp in an iframe) and avoid triggering extra browser permission prompts where possible.",
+      "files": [
+        "frontend/src/components/RegistrationForm.tsx",
+        "frontend/src/utils/whatsappRedirect.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-23"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-remove-all-whatsapp-join-buttons-and-related-instructional-copy-from-the-registration-success-ui-and-from-the-duplicate-registration-ui-so-the-app-does-not-show-any-manual-join-button-after-registration-duplicate-states-per-user-request-keep-user-facing-success-duplicate-text-in-english",
+      "featureTitle": "Remove all WhatsApp 'join' buttons and related instructional copy from the registration success UI and from the duplicate-registration UI so the app does not show any manual join button after registration/duplicate states (per user request). Keep user-facing success/duplicate text in English.",
+      "files": [
+        "frontend/src/components/RegistrationForm.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-24"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-bottom-right-floating-whatsapp-cta-so-it-visibly-displays-the-label-text-exactly-join-whatsapp-group-not-just-an-icon-aria-label-while-remaining-small-mobile-visible-and-non-intrusive-must-not-block-the-registration-form-submit-button-the-button-must-open-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t",
+      "featureTitle": "Update the bottom-right floating WhatsApp CTA so it visibly displays the label text exactly: \"Join WhatsApp group\" (not just an icon/aria-label), while remaining small, mobile-visible, and non-intrusive (must not block the registration form submit button). The button must open: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
+      "files": [
+        "frontend/src/components/WhatsAppFloatingButton.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-25"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

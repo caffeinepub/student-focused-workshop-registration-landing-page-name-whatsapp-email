@@ -1,2 +1,3 @@
-# student-focused-workshop-registration-landing-page-name-whatsapp-email
-Exported from Caffeine project: Student-focused workshop registration landing page (Name + WhatsApp + Email)
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

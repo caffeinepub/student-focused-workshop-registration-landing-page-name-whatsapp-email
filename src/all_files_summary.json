@@ -1,0 +1,21 @@
+{
+  "backend/main.mo": "Motoko backend managing user profiles and workshop registrations with access control, duplicate checks, and admin-only queries.",
+  "feature_evidence.json": "Feature evidence report linking feature IDs to impacted frontend files and components.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing purposes of all major frontend components and utilities.",
+  "frontend/index.css": "Tailwind base stylesheet defining OKLCH color variables and light/dark theme tokens.",
+  "frontend/index.html": "HTML entry point that mounts the React app and loads main.tsx.",
+  "frontend/src/App.tsx": "Top-level landing page layout with hero content, workshop info, and embedded registration form plus floating WhatsApp CTA.",
+  "frontend/src/components/RegistrationForm.tsx": "Client registration form with validation, backend submission, duplicate handling, and automatic WhatsApp redirect on success.",
+  "frontend/src/components/WhatsAppFloatingButton.tsx": "Floating button that opens the WhatsApp group link in a new tab with icon and visible label.",
+  "frontend/src/hooks/useActor.ts": "Hook creating authenticated or anonymous backend actors and refreshing queries when identity changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides React context and provider for managing Internet Identity authentication using AuthClient, exposing identity state and login/clear functions.",
+  "frontend/src/hooks/useRegisterMutation.ts": "Defines a React Query mutation for registering users via an actor, handling error normalization and invalidating registration queries.",
+  "frontend/src/index.css": "Sets up Tailwind base styles and defines light/dark theme color variables using OKLCH for the app.",
+  "frontend/src/lib/utils.ts": "Exports a helper function that merges Tailwind class names using clsx and tailwind-merge.",
+  "frontend/src/main.tsx": "Bootstraps the React app, wrapping it with QueryClientProvider and InternetIdentityProvider.",
+  "frontend/src/utils/urlParams.ts": "Utility functions for reading, persisting, and clearing URL and session parameters, including hash-based routing support.",
+  "frontend/src/utils/validation.ts": "Provides validation for full name, email, and WhatsApp numbers with normalization for Indian formats.",
+  "frontend/src/utils/whatsappRedirect.ts": "Implements a best‑effort WhatsApp redirect, attempting top‑window navigation with fallback to current window.",
+  "frontend/tailwind.config.js": "Tailwind CSS configuration extending theme colors, animations, and container settings, with plugins enabled.",
+  "project_state.json": "Describes the project’s current requirements, issues, and architectural notes for a high‑traffic workshop landing page with registration and WhatsApp redirect flows."
+}

@@ -1,0 +1,79 @@
+{
+  "kind": "build_request",
+  "title": "Force post-registration WhatsApp auto-redirect with no success/duplicate join buttons + visible floating CTA label",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-23",
+      "text": "Update the post-registration flow so that immediately after the backend registration call succeeds, the app performs a best-effort automatic navigation to the WhatsApp group invite link (in the same tab / top-level window) using: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. Avoid approaches that can cause 'refused to connect' issues (e.g., embedding WhatsApp in an iframe) and avoid triggering extra browser permission prompts where possible.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "post‑registration auto‑redirect user to the WhatsApp group without showing any button or taking any permission",
+          "use the link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t"
+        ]
+      },
+      "acceptanceCriteria": [
+        "After a successful registration (backend responds success), the browser navigates to https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t automatically without requiring an additional user click.",
+        "The redirect attempt does not use an iframe or embedded WhatsApp page.",
+        "If the app is running inside an iframe/container, the redirect attempts to navigate the top-level window (e.g., top-level location) rather than the embedded frame.",
+        "The redirect is triggered only after backend success (not after client-side validation alone)."
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "text": "Remove all WhatsApp 'join' buttons and related instructional copy from the registration success UI and from the duplicate-registration UI so the app does not show any manual join button after registration/duplicate states (per user request). Keep user-facing success/duplicate text in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "without showing any button"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When registration succeeds, the success state does not render any button that links to WhatsApp (no 'Join WhatsApp Group' button and no supporting 'click the button' text).",
+        "When the backend indicates the user is already registered, the duplicate message does not render any button that links to WhatsApp.",
+        "No new sections or navigation are added as part of this change."
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "text": "Update the bottom-right floating WhatsApp CTA so it visibly displays the label text exactly: \"Join WhatsApp group\" (not just an icon/aria-label), while remaining small, mobile-visible, and non-intrusive (must not block the registration form submit button). The button must open: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-5"
+        ],
+        "quotes": [
+          "And below corner WhatsApp group button show text there \"Join WhatsApp group\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "Floating CTA includes visible text exactly \"Join WhatsApp group\" alongside/with the icon.",
+        "Floating CTA remains positioned bottom-right, does not overlap the primary form submit button on common mobile viewports, and remains clickable.",
+        "Clicking the floating CTA opens the WhatsApp group invite link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files under frontend/src/components/ui (shadcn components) or any other immutable paths listed in SYSTEM_CONTEXT.",
+    "Respect the single-actor backend architecture; no new backend canisters/services.",
+    "Use English for any user-facing text.",
+    "Preserve the exact WhatsApp group invite URL: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
+  ],
+  "nonGoals": [
+    "Guaranteeing WhatsApp auto-open in all browsers/devices/in-app webviews (some environments may still block automatic navigation to external apps/sites).",
+    "Adding new landing page sections, navigation bars, blogs, FAQs, or animations.",
+    "Adding third-party integrations (analytics, auth providers, messaging services)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
