@@ -1,69 +1,82 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Post-registration WhatsApp auto-redirect + remove join buttons + labeled floating CTA",
+  "title": "FOMO trust indicator + lightweight live social-proof popups on landing page",
   "requirements": [
     {
-      "id": "REQ-23",
-      "summary": "Trigger best-effort automatic top-level navigation to the WhatsApp group invite immediately after backend registration succeeds (no iframe).",
+      "id": "REQ-1",
+      "summary": "Add an above-the-fold highlighted FOMO trust indicator directly under the hero RegistrationForm CTA button.",
       "acceptanceCriteria": [
-        "After a successful registration (backend responds success), the browser navigates to https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t automatically without requiring an additional user click.",
-        "The redirect attempt does not use an iframe or embedded WhatsApp page.",
-        "If the app is running inside an iframe/container, the redirect attempts to navigate the top-level window (e.g., top-level location) rather than the embedded frame.",
-        "The redirect is triggered only after backend success (not after client-side validation alone)."
+        "On the landing page hero section, directly under the RegistrationForm submit button (“Register Now for Free”), a centered highlighted line is rendered with the exact text: “🔥 3,000+ students have already registered”.",
+        "The trust indicator is visible without scrolling on common mobile and desktop viewports (above the fold).",
+        "The trust indicator uses a soft contrasting background (light yellow or light green) and a subtle leading icon (🔥 or 👥).",
+        "The trust indicator font size is visibly smaller than the CTA button text.",
+        "No backend changes are required for this trust indicator."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/whatsappRedirect.ts",
-          "operation": "modify",
-          "description": "Update the redirect helper to prefer top-level navigation when embedded (best-effort: try window.top.location.assign / replace with try-catch + fallbacks to window.location) while keeping same-tab navigation and avoiding iframe-based approaches."
-        },
-        {
           "path": "frontend/src/components/RegistrationForm.tsx",
           "operation": "modify",
-          "description": "Ensure the auto-redirect is invoked only after backend success (keep it tied to the successful mutation state) and uses the shared WhatsApp URL constant exactly as provided; avoid any iframe/embed-based fallback behaviors."
+          "description": "Render a centered, slightly-smaller-than-CTA highlighted trust-indicator line immediately below the submit button with the exact text “🔥 3,000+ students have already registered”, using a soft contrasting background (light yellow or light green) and subtle styling to keep it above-the-fold in the hero form."
         }
       ]
     },
     {
-      "id": "REQ-24",
-      "summary": "Remove all WhatsApp join buttons and instructional join copy from registration success and duplicate-registration UI while keeping English text.",
+      "id": "REQ-2",
+      "summary": "Implement a lightweight bottom-left live social-proof popup that periodically shows one modern notification card with animation.",
       "acceptanceCriteria": [
-        "When registration succeeds, the success state does not render any button that links to WhatsApp (no 'Join WhatsApp Group' button and no supporting 'click the button' text).",
-        "When the backend indicates the user is already registered, the duplicate message does not render any button that links to WhatsApp.",
-        "No new sections or navigation are added as part of this change."
+        "A notification card appears in the bottom-left corner of the landing page and displays exactly: “{Name} from {City} registered {TimeAgo}”.",
+        "Only one popup is visible at a time.",
+        "Popups appear on a random interval between 6 and 10 seconds (inclusive) and auto-hide after ~4 seconds.",
+        "The popup uses a smooth fade-in + slide-up animation on show and a smooth fade-out (no abrupt removal).",
+        "The notification card design is clean and modern with: white background, soft shadow, rounded corners, and a small green dot/tick icon on the left.",
+        "The popup is responsive and does not block critical UI on mobile (including the registration CTA).",
+        "Implementation is lightweight and does not add heavy external libraries."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/RegistrationForm.tsx",
-          "operation": "modify",
-          "description": "Remove the success-state WhatsApp join Button and any related instructional copy; keep success messaging in English only."
-        },
-        {
-          "path": "frontend/src/components/RegistrationForm.tsx",
-          "operation": "modify",
-          "description": "Remove the duplicate-registration WhatsApp join Button and any related instructional copy; keep duplicate messaging in English only and do not add new sections or navigation. (Use existing shadcn-ui Button only where still needed; Verify the component's usage instructions before implementing.)"
-        }
-      ]
-    },
-    {
-      "id": "REQ-25",
-      "summary": "Update the bottom-right floating WhatsApp CTA to include visible label text \"Join WhatsApp group\" and prevent overlap with the form submit button on mobile.",
-      "acceptanceCriteria": [
-        "Floating CTA includes visible text exactly \"Join WhatsApp group\" alongside/with the icon.",
-        "Floating CTA remains positioned bottom-right, does not overlap the primary form submit button on common mobile viewports, and remains clickable.",
-        "Clicking the floating CTA opens the WhatsApp group invite link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/WhatsAppFloatingButton.tsx",
-          "operation": "modify",
-          "description": "Redesign the floating CTA to a small bottom-right pill/button that includes the MessageCircle icon plus visible text exactly \"Join WhatsApp group\"; keep it non-intrusive and adjust sizing/positioning (including mobile-safe spacing) to avoid overlapping the registration submit button. Use the existing shadcn-ui Button component for consistent styling and focus states; Verify the component's usage instructions before implementing."
+          "path": "frontend/src/components/SocialProofPopups.tsx",
+          "operation": "create",
+          "description": "Create a lightweight React component that renders a single fixed bottom-left notification card at a time with a small green tick/dot icon on the left (reuse existing icon set), clean modern card styling (white background, soft shadow, rounded corners), and smooth show/hide animations (fade + slide). Ensure mobile responsiveness so it avoids blocking critical UI."
         },
         {
           "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Confirm the updated floating CTA remains mounted globally (as currently wired) and visually stays above page content without interfering with the registration form area on typical mobile layouts."
+          "description": "Wire the SocialProofPopups component into the landing page so it runs on this page and displays in the bottom-left while keeping existing content/registration flow unchanged."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Add/extend lightweight animation utilities (keyframes/animations or rely on transitions) used by the SocialProofPopups notification card for smooth fade-in + slide-up and fade-out behaviors without introducing heavy external libraries."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add per-visitor non-repeating name rotation with shuffle-on-load, storage persistence, and configurable constants for the social-proof popups.",
+      "acceptanceCriteria": [
+        "For a given browser visitor, the system never shows the same name twice across popups until the provided names list is exhausted.",
+        "The system stores shown-name state in sessionStorage or localStorage so that refreshing the page does not cause already-shown names to reappear during the same visitor’s stored session/history (depending on the chosen storage).",
+        "The names list is shuffled on initial load before selection begins (not displayed alphabetically).",
+        "The system stops scheduling new popups after all unique names from the provided list have been used; it does not loop/restart names.",
+        "Cities are chosen randomly from the provided cities list and may repeat even when names cannot repeat.",
+        "All lists and timing parameters are defined in a clearly editable place (e.g., constants/config) rather than being scattered through component logic."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/socialProofConfig.ts",
+          "operation": "create",
+          "description": "Define clearly editable constants/config for the social-proof system: predefined Indian names list, Indian cities list, time-ago options, show interval range (6–10s), and auto-hide duration (~4s), plus a storage key and a switch for sessionStorage vs localStorage."
+        },
+        {
+          "path": "frontend/src/utils/socialProofState.ts",
+          "operation": "create",
+          "description": "Implement lightweight helpers for shuffling names on initial load, selecting names without replacement, persisting shown names in web storage, and determining when all names are exhausted (so scheduling stops). Keep logic framework-agnostic and easy to adjust."
+        },
+        {
+          "path": "frontend/src/components/SocialProofPopups.tsx",
+          "operation": "modify",
+          "description": "Use the socialProofConfig and socialProofState helpers to: shuffle names on mount, pick names without replacement, persist shown names per visitor using sessionStorage or localStorage, allow cities to repeat, rotate time-ago strings, and stop creating new popups once all names are used. Ensure timing uses a random interval between 6–10 seconds and auto-hides after ~4 seconds with a non-abrupt fade-out."
         }
       ]
     }

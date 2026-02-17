@@ -4,7 +4,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useRegisterMutation } from '../hooks/useRegisterMutation';
 import { validateFullName, validateEmail, normalizeWhatsAppNumber } from '../utils/validation';
-import { CheckCircle2, Loader2 } from 'lucide-react';
+import { CheckCircle2, Loader2, Flame } from 'lucide-react';
 import { attemptWhatsAppRedirect } from '../utils/whatsappRedirect';
 
 const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t';
@@ -152,7 +152,7 @@ export default function RegistrationForm() {
           {errors.email && <p className="mt-1 text-sm font-medium text-destructive">{errors.email}</p>}
         </div>
 
-        <Button type="submit" size="lg" className="w-full text-base font-bold" disabled={isPending}>
+        <Button type="submit" size="lg" className="w-full text-base font-bold sm:text-lg" disabled={isPending}>
           {isPending ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -163,9 +163,13 @@ export default function RegistrationForm() {
           )}
         </Button>
 
-        <p className="text-center text-xs text-muted-foreground">
-          By registering, you'll get access to the free live workshop and WhatsApp group updates.
-        </p>
+        {/* FOMO Trust Indicator */}
+        <div className="flex items-center justify-center gap-2 rounded-md bg-yellow-100 px-3 py-2 dark:bg-yellow-900/30">
+          <Flame className="h-4 w-4 text-orange-600 dark:text-orange-500" />
+          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+            3,000+ students have already registered
+          </p>
+        </div>
       </form>
     </div>
   );

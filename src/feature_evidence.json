@@ -2,28 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-post-registration-flow-so-that-immediately-after-the-backend-registration-call-succeeds-the-app-performs-a-best-effort-automatic-navigation-to-the-whatsapp-group-invite-link-in-the-same-tab-top-level-window-using-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t-avoid-approaches-that-can-cause-refused-to-connect-issues-e-g-embedding-whatsapp-in-an-iframe-and-avoid-triggering-extra-browser-permission-prompts-where-possible",
-      "featureTitle": "Update the post-registration flow so that immediately after the backend registration call succeeds, the app performs a best-effort automatic navigation to the WhatsApp group invite link (in the same tab / top-level window) using: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. Avoid approaches that can cause 'refused to connect' issues (e.g., embedding WhatsApp in an iframe) and avoid triggering extra browser permission prompts where possible.",
-      "files": [
-        "frontend/src/components/RegistrationForm.tsx",
-        "frontend/src/utils/whatsappRedirect.ts"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0"
-      ],
-      "testIds": [
-        "REQ-23"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-remove-all-whatsapp-join-buttons-and-related-instructional-copy-from-the-registration-success-ui-and-from-the-duplicate-registration-ui-so-the-app-does-not-show-any-manual-join-button-after-registration-duplicate-states-per-user-request-keep-user-facing-success-duplicate-text-in-english",
-      "featureTitle": "Remove all WhatsApp 'join' buttons and related instructional copy from the registration success UI and from the duplicate-registration UI so the app does not show any manual join button after registration/duplicate states (per user request). Keep user-facing success/duplicate text in English.",
+      "featureId": "feature-add-a-strong-fomo-trust-indicator-immediately-below-the-main-registration-cta-button-in-the-hero-section-registration-form-centered-and-visible-above-the-fold-with-the-exact-text-3-000-students-have-already-registered-the-line-must-be-slightly-smaller-than-the-cta-button-text-and-highlighted-using-a-soft-contrasting-background-light-yellow-or-light-green-with-a-subtle-icon-or-before-the-text",
+      "featureTitle": "Add a strong FOMO trust indicator immediately below the main registration CTA button in the hero section registration form, centered and visible above the fold, with the exact text: “🔥 3,000+ students have already registered”. The line must be slightly smaller than the CTA button text and highlighted using a soft contrasting background (light yellow or light green) with a subtle icon (🔥 or 👥) before the text.",
       "files": [
         "frontend/src/components/RegistrationForm.tsx"
       ],
@@ -36,15 +16,17 @@
         "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-24"
+        "REQ-1"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-bottom-right-floating-whatsapp-cta-so-it-visibly-displays-the-label-text-exactly-join-whatsapp-group-not-just-an-icon-aria-label-while-remaining-small-mobile-visible-and-non-intrusive-must-not-block-the-registration-form-submit-button-the-button-must-open-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t",
-      "featureTitle": "Update the bottom-right floating WhatsApp CTA so it visibly displays the label text exactly: \"Join WhatsApp group\" (not just an icon/aria-label), while remaining small, mobile-visible, and non-intrusive (must not block the registration form submit button). The button must open: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
+      "featureId": "feature-implement-a-lightweight-live-social-proof-notification-popup-system-on-the-landing-page-that-periodically-shows-a-single-bottom-left-notification-card-with-the-format-name-from-city-registered-timeago-using-the-provided-predefined-indian-names-list-and-provided-indian-cities-list-and-randomly-rotating-through-recent-timeago-strings",
+      "featureTitle": "Implement a lightweight live social-proof notification popup system on the landing page that periodically shows a single bottom-left notification card with the format “{Name} from {City} registered {TimeAgo}”, using the provided predefined Indian names list and provided Indian cities list, and randomly rotating through recent “TimeAgo” strings.",
       "files": [
-        "frontend/src/components/WhatsAppFloatingButton.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/components/SocialProofPopups.tsx",
+        "frontend/tailwind.config.js"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -55,7 +37,28 @@
         "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-25"
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-enforce-non-repeating-name-logic-per-visitor-for-the-social-proof-popups-shuffle-the-name-list-on-page-load-pick-names-without-replacement-persist-which-names-were-shown-using-sessionstorage-or-localstorage-and-stop-showing-popups-once-all-names-are-used-cities-may-repeat-keep-all-variables-names-list-cities-list-timing-ranges-time-ago-options-easy-to-customize-later-in-code",
+      "featureTitle": "Enforce non-repeating name logic per visitor for the social-proof popups: shuffle the name list on page load, pick names without replacement, persist which names were shown using sessionStorage or localStorage, and stop showing popups once all names are used; cities may repeat. Keep all variables (names list, cities list, timing ranges, time-ago options) easy to customize later in code.",
+      "files": [
+        "frontend/src/components/SocialProofPopups.tsx",
+        "frontend/src/utils/socialProofConfig.ts",
+        "frontend/src/utils/socialProofState.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
       ],
       "confidence": "high"
     }

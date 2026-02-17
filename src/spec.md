@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Streamline the post-registration experience by automatically redirecting users to the WhatsApp group invite link after backend success, removing any manual join buttons, and making the floating WhatsApp CTA show a visible label.
+**Goal:** Increase above-the-fold trust and urgency on the landing page by adding a prominent FOMO trust indicator under the hero CTA and lightweight live social-proof popups.
 
 **Planned changes:**
-- Trigger a best-effort automatic redirect (same tab / top-level window) to `https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t` immediately after the backend registration call succeeds (not after client-side validation alone), avoiding iframe-based approaches.
-- Remove all WhatsApp “join” buttons and related instructional copy from both the registration success UI and the duplicate-registration UI, keeping remaining user-facing text in English.
-- Update the bottom-right floating WhatsApp CTA to display the visible label text exactly: “Join WhatsApp group”, keep it small and mobile-friendly, ensure it does not block the form submit button, and ensure it opens the same WhatsApp invite link on click.
+- Add a centered highlighted trust indicator line directly below the hero registration form submit button with the exact text: “🔥 3,000+ students have already registered”, styled slightly smaller than the CTA text with a soft contrasting background (light yellow or light green).
+- Implement a lightweight bottom-left social-proof notification popup that periodically shows a single card reading: “{Name} from {City} registered {TimeAgo}”, with a clean modern design and smooth fade/slide animations.
+- Add non-repeating-per-visitor name selection for popups: shuffle names on load, pick without replacement, persist shown names via sessionStorage or localStorage, and stop popups after all names are used; keep cities/time-ago/timing ranges easy to edit via centralized constants/config.
 
-**User-visible outcome:** After registering successfully, users are automatically taken to the WhatsApp group invite link without seeing any manual join button; the floating bottom-right WhatsApp CTA remains available with a visible “Join WhatsApp group” label.
+**User-visible outcome:** Visitors see an above-the-fold “🔥 3,000+ students have already registered” trust line under the registration CTA, and occasional animated social-proof popups in the bottom-left showing recent “registrations” without repeating names for that visitor.

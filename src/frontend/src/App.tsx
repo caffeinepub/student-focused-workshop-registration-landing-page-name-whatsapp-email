@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import RegistrationForm from './components/RegistrationForm';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
+import SocialProofPopups from './components/SocialProofPopups';
 import { Button } from './components/ui/button';
 
 export default function App() {
@@ -269,6 +270,9 @@ export default function App() {
 
       {/* Floating WhatsApp Button */}
       <WhatsAppFloatingButton />
+
+      {/* Social Proof Popups */}
+      <SocialProofPopups />
     </div>
   );
 }

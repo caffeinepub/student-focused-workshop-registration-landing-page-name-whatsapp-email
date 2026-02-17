@@ -1,188 +1,36 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
-  "summary": "Update the mobile-first, high-converting workshop landing page to prioritize both registration capture (Full Name + WhatsApp Number + Email) and immediate WhatsApp group joining, with revised copy: remove “Delhi live workshop” phrasing, use “Free live workshop for students | Limited seats,” remove specified lines (“who want real skill income” and “free live workshop for students” duplicate line), keep copy consistent across hero/CTAs/success states, fix WhatsApp redirect issues after registration, and ensure the system is robust enough to handle ~200,000 leads/day with reliable registration + data collection and admin-only lead access.",
+  "projectStateVersion": 3,
+  "summary": "Landing page enhancements focused on FOMO/social-proof: add an above-the-fold trust indicator under the hero CTA and implement a lightweight live social-proof popup notification system with randomized names/cities/timestamps and non-repeating name logic per visitor.",
   "architectural_notes": [
-    "Single-purpose landing page focused only on registration conversion (name + WhatsApp + email).",
-    "Mobile-first, compact layout; avoid large empty whitespace.",
-    "Allow an external WhatsApp group invite link; primary UX includes redirecting to WhatsApp group after successful registration and a persistent bottom-right “Join WhatsApp group” popup/button.",
-    "Copy requirement correction: use “daily live workshop” (not “Delhi live”) consistently across the page and registration success/duplicate states.",
-    "High-traffic requirement: design registration + storage + retrieval to reliably handle ~200,000 leads/day (avoid data loss; handle spikes gracefully).",
-    "Admin-only access requirement: registered leads data must be visible only to the owner/admin within the Caffeine app (not to anonymous visitors/leads).",
-    "Post-registration UX requirement update: user requests immediate WhatsApp group auto-redirect with no additional join/fallback button shown and no permission prompt."
+    "Track shown social-proof names per visitor using sessionStorage/localStorage so names do not repeat; stop popups once all names are used.",
+    "Popup timing: random interval (6–10s) with auto-hide after 4s; one popup at a time; bottom-left placement with fade-in + slide-up animation.",
+    "Keep implementation lightweight (no heavy external libraries) and keep names/cities/timing variables easy to customize."
   ],
-  "known_issues": [
-    "User reports an unexpected element/message is appearing during registration flow (“why this is showing while registration”) — needs investigation.",
-    "WhatsApp redirect after successful registration is not consistently working (permission/browser blocking); needs a robust fallback to ensure users can still join the group.",
-    "Browser/OS constraints may prevent truly silent WhatsApp auto-open without user gesture/permission; requirement conflicts with typical platform behavior and may not be fully achievable across devices."
-  ],
-  "isFixRequest": true,
+  "known_issues": [],
+  "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-create-a-single-page-mobile-first-landing-page-whose-only-goal-is-workshop-registration-using-the-exact-section-structure-and-english-copy-provided-by-the-user-hero-with-headline-subheadline-urgency-line-form-trust-relatability-what-you-ll-learn-digital-skills-for-not-for-authority-honesty-final-cta-do-not-add-a-navigation-bar-external-links-extra-sections-blogs-faq-or-animations",
-      "title": "Create a single-page, mobile-first landing page whose ONLY goal is workshop registration, using the exact section structure and English copy provided by the user (Hero with headline/subheadline/urgency line + form; Trust & Relatability; What You’ll Learn; Digital Skills; For/Not For; Authority + Honesty; Final CTA). Do not add a navigation bar, external links, extra sections (blogs/FAQ), or animations.",
+      "id": "feature-add-a-strong-fomo-trust-indicator-immediately-below-the-main-registration-cta-button-in-the-hero-section-registration-form-centered-and-visible-above-the-fold-with-the-exact-text-3-000-students-have-already-registered-the-line-must-be-slightly-smaller-than-the-cta-button-text-and-highlighted-using-a-soft-contrasting-background-light-yellow-or-light-green-with-a-subtle-icon-or-before-the-text",
+      "title": "Add a strong FOMO trust indicator immediately below the main registration CTA button in the hero section registration form, centered and visible above the fold, with the exact text: “🔥 3,000+ students have already registered”. The line must be slightly smaller than the CTA button text and highlighted using a soft contrasting background (light yellow or light green) with a subtle icon (🔥 or 👥) before the text.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-the-registration-form-to-collect-full-name-whatsapp-number-and-email-with-a-single-primary-submit-button-labeled-exactly-reserve-my-free-seat-place-the-form-in-the-hero-section-above-the-fold-and-ensure-the-primary-cta-buttons-elsewhere-on-the-page-scroll-focus-the-user-to-this-same-form-repeat-the-primary-cta-3-4-times-total-as-specified",
-      "title": "Implement the registration form to collect Full Name, WhatsApp Number, and Email, with a single primary submit button labeled exactly: “Reserve My Free Seat”. Place the form in the Hero section above the fold, and ensure the primary CTA buttons elsewhere on the page scroll/focus the user to this same form (repeat the primary CTA 3–4 times total as specified).",
+      "id": "feature-implement-a-lightweight-live-social-proof-notification-popup-system-on-the-landing-page-that-periodically-shows-a-single-bottom-left-notification-card-with-the-format-name-from-city-registered-timeago-using-the-provided-predefined-indian-names-list-and-provided-indian-cities-list-and-randomly-rotating-through-recent-timeago-strings",
+      "title": "Implement a lightweight live social-proof notification popup system on the landing page that periodically shows a single bottom-left notification card with the format “{Name} from {City} registered {TimeAgo}”, using the provided predefined Indian names list and provided Indian cities list, and randomly rotating through recent “TimeAgo” strings.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-client-side-validation-and-ux-safeguards-optimized-for-indian-students-require-full-name-require-whatsapp-number-to-be-a-valid-indian-mobile-format-10-digits-allow-optional-91-0-formatting-but-store-normalized-digits-and-require-email-to-be-syntactically-valid-show-inline-compact-error-messages-and-prevent-submission-until-valid",
-      "title": "Add client-side validation and UX safeguards optimized for Indian students: require Full Name, require WhatsApp Number to be a valid Indian mobile format (10 digits, allow optional +91/0 formatting but store normalized digits), and require Email to be syntactically valid. Show inline, compact error messages and prevent submission until valid.",
+      "id": "feature-enforce-non-repeating-name-logic-per-visitor-for-the-social-proof-popups-shuffle-the-name-list-on-page-load-pick-names-without-replacement-persist-which-names-were-shown-using-sessionstorage-or-localstorage-and-stop-showing-popups-once-all-names-are-used-cities-may-repeat-keep-all-variables-names-list-cities-list-timing-ranges-time-ago-options-easy-to-customize-later-in-code",
+      "title": "Enforce non-repeating name logic per visitor for the social-proof popups: shuffle the name list on page load, pick names without replacement, persist which names were shown using sessionStorage or localStorage, and stop showing popups once all names are used; cities may repeat. Keep all variables (names list, cities list, timing ranges, time-ago options) easy to customize later in code.",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-wire-the-frontend-form-submission-to-the-backend-registration-method-using-react-query-mutation-and-show-a-clear-success-state-on-completion-e-g-seat-reserved-reminder-about-5-00-pm-ist-limited-seats-on-backend-duplicate-response-show-a-friendly-you-re-already-registered-state-keep-the-user-on-the-same-page-no-external-redirects",
-      "title": "Wire the frontend form submission to the backend registration method using React Query (mutation), and show a clear success state on completion (e.g., ‘Seat reserved’ + reminder about ‘5:00 PM IST’ + limited seats). On backend duplicate response, show a friendly ‘You’re already registered’ state. Keep the user on the same page (no external redirects).",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-coherent-urgent-trustworthy-visual-theme-with-compact-spacing-and-no-empty-white-sections-use-bold-emphasis-for-key-outcomes-30k-50k-5-pm-free-and-ensure-readability-on-small-screens-do-not-use-blue-purple-as-the-primary-palette",
-      "title": "Apply a coherent, urgent, trustworthy visual theme with compact spacing and no empty white sections. Use bold emphasis for key outcomes (₹30K–₹50K, 5 PM, Free) and ensure readability on small screens. Do not use blue/purple as the primary palette.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-all-landing-page-copy-to-remove-any-specific-workshop-time-mentions-e-g-5-00-pm-ist-5-pm-and-instead-position-the-event-as-delhi-live-workshop-with-daily-workshop-limited-seats-ensure-this-change-is-applied-consistently-in-the-hero-urgency-line-final-cta-registration-success-state-and-duplicate-registration-message",
-      "title": "Update all landing-page copy to remove any specific workshop time mentions (e.g., “5:00 PM IST”, “5 PM”) and instead position the event as “Delhi live workshop” with “Daily workshop | Limited seats”. Ensure this change is applied consistently in the Hero urgency line, final CTA, registration success state, and duplicate-registration message.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-revise-the-what-you-ll-learn-bullet-list-content-to-remove-the-claim-how-to-start-from-0-as-a-student-replace-it-with-an-english-line-that-communicates-starting-as-a-student-without-any-0-mention-while-keeping-the-overall-section-structure-intact",
-      "title": "Revise the “What You'll Learn” bullet list content to remove the claim “How to start from ₹0 as a student”. Replace it with an English line that communicates starting as a student (without any ₹0 mention) while keeping the overall section structure intact.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-remove-all-negative-framing-from-the-page-delete-the-this-is-not-for-you-if-subsection-and-remove-negative-styled-points-including-no-scams-no-fake-apps-no-shortcuts-and-the-why-most-students-fail-negative-list-replace-these-areas-with-positive-conversion-focused-english-copy-explaining-why-a-student-should-register-preserve-and-prominently-include-the-line-you-don-t-need-a-degree-mobile-skills-are-enough",
-      "title": "Remove all negative framing from the page: delete the “This Is NOT For You If…” subsection and remove negative/“❌” styled points (including “No Scams • No Fake Apps • No Shortcuts” and the “Why Most Students Fail…” negative list). Replace these areas with positive, conversion-focused English copy explaining why a student should register. Preserve and prominently include the line: “You don’t need a degree; mobile + skills are enough.”",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-replace-the-digital-skills-that-pay-students-in-2026-section-content-so-it-no-longer-lists-skill-names-like-lead-generation-ads-skills-or-short-form-video-editing-instead-rewrite-that-section-into-a-why-you-should-register-style-message-english-while-keeping-a-clean-mobile-friendly-layout-and-retaining-the-line-you-don-t-need-a-degree-mobile-skills-are-enough",
-      "title": "Replace the “Digital Skills That Pay Students in 2026” section content so it no longer lists skill names like “Lead Generation & Ads Skills” or “Short-Form Video Editing”. Instead, rewrite that section into a “Why you should register” style message (English) while keeping a clean, mobile-friendly layout and retaining the line “You don’t need a degree; mobile + skills are enough.”",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-an-earn-within-15-days-claim-in-user-facing-english-copy-in-prominent-locations-at-minimum-near-the-hero-and-at-least-one-later-cta-area-without-adding-new-sections-beyond-the-existing-page-structure",
-      "title": "Add an “earn within 15 days” claim in user-facing English copy in prominent locations (at minimum: near the Hero and at least one later CTA area), without adding new sections beyond the existing page structure.",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-after-a-successful-registration-submission-automatically-redirect-the-user-to-the-whatsapp-group-invite-link-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t-this-redirect-must-occur-only-after-the-backend-registration-call-succeeds-not-merely-after-client-side-validation",
-      "title": "After a successful registration submission, automatically redirect the user to the WhatsApp group invite link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. This redirect must occur only after the backend registration call succeeds (not merely after client-side validation).",
-      "reqIds": [
-        "REQ-12"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-small-non-intrusive-bottom-right-floating-popup-button-labeled-in-english-e-g-join-whatsapp-group-that-links-to-the-same-whatsapp-group-invite-url-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t-it-must-be-visible-on-mobile-and-not-block-the-registration-form-submit-button",
-      "title": "Add a small, non-intrusive bottom-right floating popup/button labeled in English (e.g., “Join WhatsApp Group”) that links to the same WhatsApp group invite URL: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. It must be visible on mobile and not block the registration form submit button.",
-      "reqIds": [
-        "REQ-13"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-page-s-english-copy-to-be-more-conversion-focused-while-staying-readable-and-mobile-friendly-increase-clarity-and-emphasis-using-bold-typographic-hierarchy-rather-than-long-paragraphs-do-not-add-a-navigation-bar-blogs-faq-or-animations",
-      "title": "Update the page’s English copy to be more conversion-focused while staying readable and mobile-friendly: increase clarity and emphasis using bold/typographic hierarchy rather than long paragraphs. Do not add a navigation bar, blogs, FAQ, or animations.",
-      "reqIds": [
-        "REQ-15"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-registration-error-handling-ui-to-avoid-showing-the-raw-authorization-failure-message-in-the-registration-banner-if-an-authorization-error-is-encountered-display-a-neutral-user-friendly-english-message-that-instructs-the-user-to-retry-rather-than-exposing-internal-permission-wording",
-      "title": "Update the registration error handling UI to avoid showing the raw authorization failure message in the registration banner; if an authorization error is encountered, display a neutral, user-friendly English message that instructs the user to retry rather than exposing internal permission wording.",
-      "reqIds": [
-        "REQ-17"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-all-landing-page-user-facing-copy-to-remove-the-phrase-delhi-live-workshop-and-instead-use-exactly-free-live-workshop-for-students-limited-seats-wherever-the-workshop-label-urgency-line-appears-including-the-hero-urgency-badge-and-the-post-registration-success-message",
-      "title": "Update all landing-page user-facing copy to remove the phrase “Delhi live workshop” and instead use exactly: “Free live workshop for students | Limited seats” wherever the workshop label/urgency line appears (including the Hero urgency badge and the post-registration success message).",
-      "reqIds": [
-        "REQ-18"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-remove-the-user-facing-lines-who-want-real-skill-based-income-and-any-standalone-duplicate-free-live-workshop-for-students-line-s-from-the-landing-page-content-while-keeping-the-page-structure-intact-and-ensuring-the-remaining-copy-reads-naturally-in-english",
-      "title": "Remove the user-facing lines “Who Want Real Skill-Based Income” and any standalone/duplicate “Free live workshop for students” line(s) from the landing page content, while keeping the page structure intact and ensuring the remaining copy reads naturally in English.",
-      "reqIds": [
-        "REQ-19"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-fix-the-post-registration-whatsapp-redirect-so-it-is-as-reliable-as-possible-across-browsers-devices-while-still-attempting-to-redirect-automatically-after-backend-registration-succeeds-add-a-clear-fallback-in-the-success-ui-so-users-can-manually-join-the-whatsapp-group-if-auto-redirect-is-blocked",
-      "title": "Fix the post-registration WhatsApp redirect so it is as reliable as possible across browsers/devices, while still attempting to redirect automatically after backend registration succeeds; add a clear fallback in the success UI so users can manually join the WhatsApp group if auto-redirect is blocked.",
-      "reqIds": [
-        "REQ-20"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-improve-end-to-end-registration-robustness-for-high-traffic-ensure-the-frontend-handles-transient-failures-gracefully-clear-retry-guidance-no-broken-ui-states-and-ensure-backend-errors-are-surfaced-with-user-friendly-english-messages-no-internal-permission-wording-exposed",
-      "title": "Improve end-to-end registration robustness for high traffic: ensure the frontend handles transient failures gracefully (clear retry guidance, no broken UI states), and ensure backend errors are surfaced with user-friendly English messages (no internal/permission wording exposed).",
-      "reqIds": [
-        "REQ-22"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-post-registration-flow-so-that-immediately-after-the-backend-registration-call-succeeds-the-app-performs-a-best-effort-automatic-navigation-to-the-whatsapp-group-invite-link-in-the-same-tab-top-level-window-using-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t-avoid-approaches-that-can-cause-refused-to-connect-issues-e-g-embedding-whatsapp-in-an-iframe-and-avoid-triggering-extra-browser-permission-prompts-where-possible",
-      "title": "Update the post-registration flow so that immediately after the backend registration call succeeds, the app performs a best-effort automatic navigation to the WhatsApp group invite link (in the same tab / top-level window) using: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. Avoid approaches that can cause 'refused to connect' issues (e.g., embedding WhatsApp in an iframe) and avoid triggering extra browser permission prompts where possible.",
-      "reqIds": [
-        "REQ-23"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-remove-all-whatsapp-join-buttons-and-related-instructional-copy-from-the-registration-success-ui-and-from-the-duplicate-registration-ui-so-the-app-does-not-show-any-manual-join-button-after-registration-duplicate-states-per-user-request-keep-user-facing-success-duplicate-text-in-english",
-      "title": "Remove all WhatsApp 'join' buttons and related instructional copy from the registration success UI and from the duplicate-registration UI so the app does not show any manual join button after registration/duplicate states (per user request). Keep user-facing success/duplicate text in English.",
-      "reqIds": [
-        "REQ-24"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-bottom-right-floating-whatsapp-cta-so-it-visibly-displays-the-label-text-exactly-join-whatsapp-group-not-just-an-icon-aria-label-while-remaining-small-mobile-visible-and-non-intrusive-must-not-block-the-registration-form-submit-button-the-button-must-open-https-chat-whatsapp-com-fywmvgkzuwtezek6axxztf-mode-gi-t",
-      "title": "Update the bottom-right floating WhatsApp CTA so it visibly displays the label text exactly: \"Join WhatsApp group\" (not just an icon/aria-label), while remaining small, mobile-visible, and non-intrusive (must not block the registration form submit button). The button must open: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
-      "reqIds": [
-        "REQ-25"
       ],
       "version": 1
     }
@@ -190,99 +38,19 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Create student-focused workshop landing page optimized only for registration (collect Full Name, WhatsApp Number, and Email) with specified sections/copy, repeated CTA, mobile-first compact layout, no navbar, no external links, and no unnecessary sections/animations.",
+      "summary": "Add above-the-fold FOMO trust indicator line under hero registration button (e.g., “🔥 3,000+ students have already registered”) with highlighted styling and centered alignment.",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-5",
-      "summary": "Create backend support to store workshop registrations (Full Name, normalized WhatsApp Number, Email, createdAt timestamp) in the single Motoko main actor, with stable persistence across upgrades. Prevent obvious duplicates by WhatsApp number and/or email (return a clear response indicating already registered).",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Revise landing page copy/sections per updated requirements: remove “5 PM” time mentions, frame as “Delhi live” + “daily workshop | limited seats,” remove “₹0” mention, replace skills list with stronger “why register” messaging while keeping the line “You don’t need a degree; mobile + skills are enough,” remove all negative/not-for-you points, and add claim that students can start earning within 15 days.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "After successful registration submission, automatically redirect users to the provided WhatsApp group invite link to ensure leads join the group (WhatsApp join is a primary conversion goal alongside registration capture).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-8",
-      "summary": "Add a small bottom-right floating popup/button prompting users to “Join WhatsApp group” using the provided WhatsApp group link (visible on mobile, non-intrusive, supports conversion).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-16",
-      "summary": "Ensure registration data is safely persisted across canister upgrades and can be exported for Excel use: (1) update the backend storage to be stable across upgrades, and (2) add a backend method to retrieve all registrations in a frontend-consumable format suitable for CSV creation.",
-      "reqIds": [
-        "REQ-14"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-17",
-      "summary": "Correct all landing page copy to use “daily live workshop” wording (remove/avoid “Delhi live” phrasing) consistently across hero, urgency line, CTAs, and post-registration messages.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-18",
-      "summary": "Allow workshop registration for anonymous visitors (no Internet Identity login required) by removing the access-control permission gate from the backend `register` method, so users can submit the landing-page registration form without seeing an “Unauthorized” failure.",
-      "reqIds": [
-        "REQ-16"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-19",
-      "summary": "Update landing page copy to remove any “Delhi live workshop” wording and instead use the header/urgency line “Free live workshop for students | Limited seats” consistently; also remove the specified lines (“who want real skill income” and any duplicate/undesired “free live workshop for students” line) across the page and post-registration states.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-20",
-      "summary": "Harden the post-registration WhatsApp group redirect UX to be as reliable as possible across browsers/devices (handle cases where WhatsApp blocks/doesn’t allow auto-open, provide clear fallback CTA/button, and eliminate redirect-related bugs).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-21",
-      "summary": "Scale registration + data collection to handle ~200,000 leads/day reliably (performance/load considerations, safe writes, graceful failure handling, and monitoring), ensuring no registration/data-loss bugs under high traffic.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-22",
-      "summary": "Provide an admin-only/private leads data view/segment in the Caffeine app so only the owner can see/export registered leads (not visible to public/leads), complementing existing export needs.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-26",
-      "summary": "Harden backend registration data collection to be reliable and performant at very high volume (~200,000 registrations/day): ensure registrations are persisted across canister upgrades and ensure duplicate checks do not require scanning all existing registrations.",
-      "reqIds": [
-        "REQ-21"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-27",
-      "summary": "Force post-registration WhatsApp group auto-redirect to open immediately with no extra permission prompts and without showing any join/fallback button in the success UI; use https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
+      "id": "AR-2",
+      "summary": "Implement live social-proof notification popups (bottom-left) with randomized name/city/time-ago, non-repeating names per visitor (sessionStorage/localStorage), smooth animations, and lightweight HTML/CSS/JS implementation.",
       "reqIds": [],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "Student-focused workshop registration landing page (Name + WhatsApp + Email)",
+  "projectName": "Workshop Landing",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

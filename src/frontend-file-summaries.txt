@@ -1,6 +1,6 @@
 {
-  "frontend/src/App.tsx": "Main landing page component with hero, benefits, workshop details, and CTA sections; updated all \"Delhi live workshop\" references to \"Free live workshop for students | Limited seats\" and removed the \"Who Want Real Skill-Based Income\" subheadline.",
-  "frontend/src/components/RegistrationForm.tsx": "Registration form component collecting Full Name, WhatsApp Number, and Email with inline validation; implements automatic WhatsApp redirect on success without any manual join buttons in success or duplicate-registration states.",
+  "frontend/src/App.tsx": "Main landing page component with hero, benefits, workshop details, and CTA sections; now includes the SocialProofPopups component for live social-proof notifications.",
+  "frontend/src/components/RegistrationForm.tsx": "Registration form component collecting Full Name, WhatsApp Number, and Email with inline validation; now includes a FOMO trust indicator (\"🔥 3,000+ students have already registered\") directly below the submit button with a soft yellow background.",
   "frontend/src/hooks/useRegisterMutation.ts": "React Query mutation hook that calls the backend register method with robust error normalization; maps authorization/permission errors to user-friendly messages while preserving duplicate-registration signals for proper UI handling.",
   "frontend/src/utils/validation.ts": "Client-side validation utilities for full name, email, and Indian WhatsApp number normalization (accepts 10-digit, +91, and 0-prefix formats).",
   "frontend/src/index.css": "Global styles with warm amber/orange OKLCH color palette for urgent, trustworthy aesthetic (avoiding blue/purple) in both light and dark modes.",
@@ -9,5 +9,9 @@
   "frontend/src/components/ui/label.tsx": "Shadcn label component for form field labels.",
   "frontend/src/lib/utils.ts": "Utility function for merging Tailwind classes using clsx and tailwind-merge.",
   "frontend/src/components/WhatsAppFloatingButton.tsx": "Fixed bottom-right floating pill button component with MessageCircle icon and visible \"Join WhatsApp group\" text that opens the WhatsApp group link in a new tab with hover scale animation and mobile-friendly sizing.",
-  "frontend/src/utils/whatsappRedirect.ts": "Best-effort WhatsApp redirect utility that attempts top-level window navigation when embedded in an iframe, falling back to current window navigation with graceful error handling."
+  "frontend/src/utils/whatsappRedirect.ts": "Best-effort WhatsApp redirect utility that attempts top-level window navigation when embedded in an iframe, falling back to current window navigation with graceful error handling.",
+  "frontend/src/components/SocialProofPopups.tsx": "Lightweight React component that displays bottom-left notification cards showing \"{Name} from {City} registered {TimeAgo}\" with smooth fade-in/slide-up animations, random 6-10s intervals, 4s auto-hide, and per-visitor non-repeating name tracking via sessionStorage.",
+  "frontend/src/utils/socialProofConfig.ts": "Configuration constants for the social-proof popup system including the full lists of Indian names and cities, timing parameters (6-10s intervals, 4s auto-hide), time-ago options, and storage settings.",
+  "frontend/src/utils/socialProofState.ts": "Lightweight helper functions for the social-proof system including name shuffling, non-repeating name selection, sessionStorage/localStorage persistence, random city/time-ago selection, and exhaustion detection.",
+  "frontend/tailwind.config.js": "Tailwind configuration with OKLCH color system and extended animations; now includes slide-up-fade-in and fade-out keyframes for smooth social-proof popup transitions."
 }

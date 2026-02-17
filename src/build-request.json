@@ -1,79 +1,101 @@
 {
   "kind": "build_request",
-  "title": "Force post-registration WhatsApp auto-redirect with no success/duplicate join buttons + visible floating CTA label",
-  "priority": "high",
+  "title": "Add above-the-fold FOMO trust indicator and live social-proof popups to landing page",
+  "projectName": "Workshop Landing",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-23",
-      "text": "Update the post-registration flow so that immediately after the backend registration call succeeds, the app performs a best-effort automatic navigation to the WhatsApp group invite link (in the same tab / top-level window) using: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t. Avoid approaches that can cause 'refused to connect' issues (e.g., embedding WhatsApp in an iframe) and avoid triggering extra browser permission prompts where possible.",
+      "id": "REQ-1",
+      "text": "Add a strong FOMO trust indicator immediately below the main registration CTA button in the hero section registration form, centered and visible above the fold, with the exact text: “🔥 3,000+ students have already registered”. The line must be slightly smaller than the CTA button text and highlighted using a soft contrasting background (light yellow or light green) with a subtle icon (🔥 or 👥) before the text.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "post‑registration auto‑redirect user to the WhatsApp group without showing any button or taking any permission",
-          "use the link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t"
+          "Update the existing landing page design and content with a strong FOMO trust indicator placed immediately below the main registration button in the hero section.",
+          "Add a small but highly visible highlighted line that reads:\n\n“🔥 3,000+ students have already registered”"
         ]
       },
       "acceptanceCriteria": [
-        "After a successful registration (backend responds success), the browser navigates to https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t automatically without requiring an additional user click.",
-        "The redirect attempt does not use an iframe or embedded WhatsApp page.",
-        "If the app is running inside an iframe/container, the redirect attempts to navigate the top-level window (e.g., top-level location) rather than the embedded frame.",
-        "The redirect is triggered only after backend success (not after client-side validation alone)."
+        "On the landing page hero section, directly under the RegistrationForm submit button (“Register Now for Free”), a centered highlighted line is rendered with the exact text: “🔥 3,000+ students have already registered”.",
+        "The trust indicator is visible without scrolling on common mobile and desktop viewports (above the fold).",
+        "The trust indicator uses a soft contrasting background (light yellow or light green) and a subtle leading icon (🔥 or 👥).",
+        "The trust indicator font size is visibly smaller than the CTA button text.",
+        "No backend changes are required for this trust indicator."
       ]
     },
     {
-      "id": "REQ-24",
-      "text": "Remove all WhatsApp 'join' buttons and related instructional copy from the registration success UI and from the duplicate-registration UI so the app does not show any manual join button after registration/duplicate states (per user request). Keep user-facing success/duplicate text in English.",
+      "id": "REQ-2",
+      "text": "Implement a lightweight live social-proof notification popup system on the landing page that periodically shows a single bottom-left notification card with the format “{Name} from {City} registered {TimeAgo}”, using the provided predefined Indian names list and provided Indian cities list, and randomly rotating through recent “TimeAgo” strings.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "without showing any button"
+          "Create an advanced live social proof notification popup system on my landing page.",
+          "Each popup should display:\n\n“{Name} from {City} registered {TimeAgo}”"
         ]
       },
       "acceptanceCriteria": [
-        "When registration succeeds, the success state does not render any button that links to WhatsApp (no 'Join WhatsApp Group' button and no supporting 'click the button' text).",
-        "When the backend indicates the user is already registered, the duplicate message does not render any button that links to WhatsApp.",
-        "No new sections or navigation are added as part of this change."
+        "A notification card appears in the bottom-left corner of the landing page and displays exactly: “{Name} from {City} registered {TimeAgo}”.",
+        "Only one popup is visible at a time.",
+        "Popups appear on a random interval between 6 and 10 seconds (inclusive) and auto-hide after ~4 seconds.",
+        "The popup uses a smooth fade-in + slide-up animation on show and a smooth fade-out (no abrupt removal).",
+        "The notification card design is clean and modern with: white background, soft shadow, rounded corners, and a small green dot/tick icon on the left.",
+        "The popup is responsive and does not block critical UI on mobile (including the registration CTA).",
+        "Implementation is lightweight and does not add heavy external libraries."
       ]
     },
     {
-      "id": "REQ-25",
-      "text": "Update the bottom-right floating WhatsApp CTA so it visibly displays the label text exactly: \"Join WhatsApp group\" (not just an icon/aria-label), while remaining small, mobile-visible, and non-intrusive (must not block the registration form submit button). The button must open: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t.",
+      "id": "REQ-3",
+      "text": "Enforce non-repeating name logic per visitor for the social-proof popups: shuffle the name list on page load, pick names without replacement, persist which names were shown using sessionStorage or localStorage, and stop showing popups once all names are used; cities may repeat. Keep all variables (names list, cities list, timing ranges, time-ago options) easy to customize later in code.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3",
-          "msg-5"
+          "msg-1"
         ],
         "quotes": [
-          "And below corner WhatsApp group button show text there \"Join WhatsApp group\""
+          "Once a name is shown:\n\nNever repeat the same name for the same visitor\n\nUse sessionStorage or localStorage to track shown names",
+          "Shuffle name list on page load\n\nPick names without replacement\n\nTrack shown names per visitor\n\nStop popups once all names are used\n\nDo NOT loop names again\n\nImplement using HTML, CSS, and JavaScript and keep all variables (names, cities, timing) easy to customize later."
         ]
       },
       "acceptanceCriteria": [
-        "Floating CTA includes visible text exactly \"Join WhatsApp group\" alongside/with the icon.",
-        "Floating CTA remains positioned bottom-right, does not overlap the primary form submit button on common mobile viewports, and remains clickable.",
-        "Clicking the floating CTA opens the WhatsApp group invite link: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
+        "For a given browser visitor, the system never shows the same name twice across popups until the provided names list is exhausted.",
+        "The system stores shown-name state in sessionStorage or localStorage so that refreshing the page does not cause already-shown names to reappear during the same visitor’s stored session/history (depending on the chosen storage).",
+        "The names list is shuffled on initial load before selection begins (not displayed alphabetically).",
+        "The system stops scheduling new popups after all unique names from the provided list have been used; it does not loop/restart names.",
+        "Cities are chosen randomly from the provided cities list and may repeat even when names cannot repeat.",
+        "All lists and timing parameters are defined in a clearly editable place (e.g., constants/config) rather than being scattered through component logic."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (shadcn components) or any other immutable paths listed in SYSTEM_CONTEXT.",
-    "Respect the single-actor backend architecture; no new backend canisters/services.",
-    "Use English for any user-facing text.",
-    "Preserve the exact WhatsApp group invite URL: https://chat.whatsapp.com/FYWmvGKZUWTEZEK6aXxZTF?mode=gi_t."
+    "Frontend must not add heavy external libraries for the popup system.",
+    "Do not edit files under frontend/src/components/ui or any frontend immutablePaths listed in SYSTEM_CONTEXT.",
+    "Backend must remain a single Motoko actor; no backend changes are required for these UI-only enhancements.",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Guaranteeing WhatsApp auto-open in all browsers/devices/in-app webviews (some environments may still block automatic navigation to external apps/sites).",
-    "Adding new landing page sections, navigation bars, blogs, FAQs, or animations.",
-    "Adding third-party integrations (analytics, auth providers, messaging services)."
+    "Do not implement real-time or backend-driven social proof based on actual registrations.",
+    "Do not add third-party analytics, tracking pixels, or external notification services.",
+    "Do not change the existing registration submission flow or WhatsApp redirect behavior beyond placing the trust indicator under the CTA button."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }
